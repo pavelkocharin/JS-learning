@@ -1,0 +1,80 @@
+body {
+    background: rgb(57, 131, 136);
+}
+
+.body-board {
+    position: relative;
+    margin: auto;
+    background: url('field.jpg') no-repeat center center;
+    width: 1024px;
+    height: 900px;
+}
+
+.body-board__messageArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgb(83, 175, 19);
+}
+
+.battle-board__field {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.battleField {
+    position: relative;
+    border-spacing: 0;
+    background:url('field_sea.jpg') no-repeat center center;
+    background-size: cover;
+    opacity: .5;
+}
+
+.battleField__td {
+    border: 2px solid green;
+    width: 94px;
+    height: 94px;
+    opacity: 1;
+    text-align: center;
+}
+
+.battleField__td:first-child {
+    border-left: none;
+    border-bottom: none;
+    border-top: none; 
+    background-color: rgba(139, 223, 153, 0.5);
+    opacity: 1; 
+    font-size: 30px;
+}
+
+.battleField__tr:first-child > .battleField__td {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: rgba(139, 223, 153, 0.5);
+    font-size: 30px;
+}
+
+.board__form {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(83, 175, 19);
+    padding: 15px;
+}
+
+.board-form__guessInput, 
+.board-form__fireButton {
+    background-color: rgb(152, 207, 113);
+    border-color: rgb(83, 175, 19);
+    font-size: 1em;
+}
+
+.hit {
+    background: url('ship.png') no-repeat center center;
+}
+
+.miss {
+    background: url('miss.png') no-repeat center center;
+}

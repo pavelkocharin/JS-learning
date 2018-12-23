@@ -26,21 +26,3 @@ switch (a) {
     alert (2.3);
     break;
 }
-/*
-for (var i = 1; i < 11; i++) {
-    if (i % 2 == 1) continue;
-    alert(i);
-}
-
-//задача 5*
-var i = 0;
-while (i < 3) {
-    alert("номер " + i + "!");
-    i++;
-}
-
-//задача 6
-var value = "";
-while (value < 100 && value != null) {
-    var value = +prompt("Ввeдите число больше 100", " ");
-}*/
