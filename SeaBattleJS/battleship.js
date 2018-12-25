@@ -64,17 +64,16 @@ generateField()
 //модель объекта представления (сообщение, попадание, промах)
 var view = {
 	displayMessage: function(msg) {
-		var messageArea = document.querySelector('body-board__messageArea');
-		messageArea.innerHTML = msg;
+		document.querySelector('.body-board__messageArea').innerHTML = msg;
 	},
-//shotId координата выстрела, отбирается по атрибуту
-	displayHit: function(cell) {
-		var cell = document.querySelector('[data-id=' + id + ']');
+// координата выстрела, отбирается по атрибуту
+	displayHit: function(id) {
+		var cell = document.querySelector('[data-id="'+ id + '"]');
 		cell.setAttribute ('class', 'hit');
 	},
 
-	displayMiss: function(cell) {
-		var cell = document.querySelector('[data-id=' + id + ']');
+	displayMiss: function(id) {
+		var cell = document.querySelector('[data-id="'+ id + '"]');
 		cell.setAttribute ('class', 'miss');
 	}
 };
@@ -154,23 +153,22 @@ var model = {
 
 	//метод стрельбы по локациям
 	fire: function(id) {
-		var cell = document.querySelector('[data-id=' + id + ']');
+		var cell = document.querySelector('[data-id="'+ id + '"]');
 		for (var i=0; i < this.numShips; i++) {
 			var ship = this.ships[i];
-			var index = ship.locations.indexOf(cell);
+			var index = ship.locations.indexOf(id);
 			if (index >= 0) {
 				ship.hits[index] = 'hit';
-				view.displayHit(cell);
+				view.displayHit(id);
 				view.displayMessage('СНАЙПЕР ПОПАЛ!');
 				if (this.isSunk(ship)) {
 					view.displayMessage('Ты потопил, мать его, корабль!');
 					this.shipsSunk++;
 				}
 				return true;
-				console.log(cell);
 			}
 		}
-		view.displayMiss(cell);
+		view.displayMiss(id);
 		view.displayMessage('Мазила косорукая.');
 		return false;
 	},
@@ -207,14 +205,16 @@ var model = {
 			rows = Math.floor(Math.random() * (this.row - this.shipLength));
 			cols = Math.floor(Math.random() * this.column);
 		}
-		//генерация позиций корабля
+		//генерация позиций корабля с переводом на букву и исключением кол 0
 		var newShipLocations = [];
 		for (var i=0; i < this.shipLength; i++) {
+			var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 			if (direction === 1) {
-				newShipLocations.push(rows + '' + (cols + i));
+				newShipLocations.push(letters[rows] + '' + (cols + i + 1));
 			} else {
-				newShipLocations.push((rows + i) + '' + cols);
+				newShipLocations.push(letters[rows + i] + '' + (cols + 1));
 			}
+			console.log(newShipLocations);
 		}
 		return newShipLocations;
 	},
@@ -239,11 +239,11 @@ var model = {
 var controller = {
 	guesses: 0,
 	processGuess: function(guess) {
-		var cell = parseGuess(guess);
-		if (cell) {
+		var id = parseGuess(guess);
+		if (id) {
 			//счётчик корректных выстрелов, передача данных на метод fire
 			this.guesses++;
-			var hit = model.fire(cell);
+			var hit = model.fire(id);
 			//проверка на окончание игры
 			if (hit && model.shipsSunk === model.numShips) {
 				view.displayMessage('Каррамба! Ты потопил весь мой флот, за ' + this.guesses + ' выстрелов');
@@ -259,12 +259,14 @@ function parseGuess(guess) {
 	if (guess === null || guess.length !== 2) {
 		alert('Упс, пожалуйста введите букву и цифру сектора');
 	} else {
-		var row = guess.charAt(1);
-		var column = guess.charAt(2);
+		var row = guess.charAt(0);
+		var column = guess.charAt(1);
+		var cell = document.querySelector('[data-id="'+ guess + '"]');
 	
-		if (isNaN(row) || isNaN(column)) {
+		if (isNaN(column) || cell === null) {
 			alert('Упс, введите корректные данные, это были не координаты!');
-		} else if (row < 0 || row >= model.row || column < 0 || column >= model.column) {
+//добавить условия на соответствие row буквам и отсечь нулевую колонку
+		} else if (column < 1 || column > model.column) {
 			alert('Упс, эти координаты за пределами поля боя!');
 		} else {
 			return row + column;
@@ -272,7 +274,6 @@ function parseGuess(guess) {
 	}
 	return null;
 };
-
 
 //обработчик событий (кнопки игры) + на enter
 function init() {
@@ -299,4 +300,5 @@ function handleKeyPress(e) {
 };
 model.generateField();
 model.generateShipLocations();
-init ();
+window.onload = init;
+
