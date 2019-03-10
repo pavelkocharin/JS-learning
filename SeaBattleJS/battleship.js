@@ -281,7 +281,7 @@ function init() {
 	fireButton.onclick = handleFireButton;
 	var guessInput = document.querySelector('.board-form__guessInput');
 	guessInput.onkeypress = handleKeyPress;
-}
+};
 
 //передача координат на контроллер и очистка поля для следующего выстрела
 function handleFireButton () {
@@ -289,7 +289,7 @@ function handleFireButton () {
 	var guess = guessInput.value;
 	controller.processGuess(guess);
 	guessInput.value = '';
-}
+};
 //передача координат через Enter
 function handleKeyPress(e) {
 	var fireButton = document.querySelector('.board-form__fireButton');
@@ -298,7 +298,22 @@ function handleKeyPress(e) {
 		return false;
 	}
 };
+
+//ответчик на клик мышой по ячейкам
+function makeClickAll () {
+	var td = document.querySelectorAll('.battleField__td');
+	function makeClick() {
+		var id = this.getAttribute('data-id');
+		controller.processGuess(id);
+	}
+	for (var i = 0; i < td.length; i++) {
+		td[i].addEventListener('click', makeClick);
+	}
+}
+
+
+
 model.generateField();
 model.generateShipLocations();
+makeClickAll();
 window.onload = init;
-
