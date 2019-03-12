@@ -4,8 +4,8 @@ body {
 
 .body-board {
     position: relative;
-    margin: auto;
     background: url('field.jpg') no-repeat center center;
+    margin: auto;
     width: 1024px;
     height: 900px;
 }
@@ -14,12 +14,12 @@ body {
     position: absolute;
     top: 5px;
     left: 5px;
+    border: 2px solid rgb(83, 175, 19);
+    border-radius: 5px;
+    background-color: rgb(152, 207, 113);
     width: 150px;
     height: 25px;
     padding: 5px 10px;
-    background-color: rgb(152, 207, 113);
-    border: 2px solid rgb(83, 175, 19);
-    border-radius: 5px;
     font-size: 1em;
 }
 
@@ -30,26 +30,26 @@ body {
 }
 
 .battleField {
+    opacity: .6;
     border-spacing: 0;
     background:url('field_sea.jpg') no-repeat center center;
     background-size: cover;
-    opacity: .6;
 }
 
 .battleField__td {
+    opacity: 1;
     border: 2px solid green;
     width: 94px;
     height: 94px;
-    opacity: 1;
     text-align: center;
 }
 
 .battleField__td:first-child {
+    opacity: 1; 
     border-left: none;
     border-bottom: none;
     border-top: none; 
     background-color: rgba(139, 223, 153, 0.5);
-    opacity: 1; 
     font-size: 30px;
 }
 
@@ -71,8 +71,8 @@ body {
 
 .board-form__guessInput, 
 .board-form__fireButton {
-    background-color: rgb(152, 207, 113);
     border-color: rgb(83, 175, 19);
+    background-color: rgb(152, 207, 113);
     font-size: 1em;
 }
 
